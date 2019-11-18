@@ -27,12 +27,13 @@ def abspath_from_here(*args):
     path = os.path.join(here, *args)
     return os.path.abspath(path)
 
-NB_SOURCE_DIR = abspath_from_here('..', 'notebooks')
-NB_DEST_DIR = abspath_from_here('content', 'notebooks')
-PAGE_DEST_DIR = abspath_from_here('content', 'pages')
+NB_SOURCE_DIR = abspath_from_here('../notebooks')
+NB_DEST_DIR = abspath_from_here('content/notebooks')
+PAGE_DEST_DIR = abspath_from_here('content/pages')
 
 
 def copy_notebooks():
+    print(NB_SOURCE_DIR)
     nblist = sorted(nb for nb in os.listdir(NB_SOURCE_DIR)
                     if nb.endswith('.ipynb'))
     name_map = {nb: nb.rsplit('.', 1)[0].lower() + '.html'
@@ -81,7 +82,7 @@ def copy_notebooks():
                 for figname, newfigname in figure_map.items():
                     if figname in cell.source:
                         cell.source = cell.source.replace(figname, newfigname)
-                        
+
         nbformat.write(content, os.path.join(NB_DEST_DIR, nb))
 
         pagefile = os.path.join(PAGE_DEST_DIR, base + '.md')
